@@ -17,20 +17,54 @@ const hiddenButton = document.querySelector(".play-again");
 
 const word = "magnolia";
 
+const guessedLetters = [];
+
 const circle = function (word) {
-  const placeHolderLetters = [];
+  const placeholderLetters = [];
   for (const letter of word) {
     console.log(letter);
-    placeHolderLetters.push("●");
+    placeholderLetters.push("●");
   }
-  p.innerText = placeHolderLetters.join("");
+  p.innerText = placeholderLetters.join("");
 };
 
 circle(word);
 
 guessButton.addEventListener("click", function (e) {
   e.preventDefault();
+  pMessage.innerText = "";
   const inputValue = textInput.value;
-  console.log(inputValue);
+  // console.log(inputValue);
+  // textInput.value = "";
+  const playerInputValue = playerInput(inputValue);
+  if (playerInputValue) {
+    makeGuess(guess);
+  }
   textInput.value = "";
+  //console.log(playerInputValue);
+  // makeGuess(guess);
 });
+
+const playerInput = function (input) {
+  const acceptedLetter = /[a-zA-Z]/;
+  if (input.length === 0) {
+    pMessage.innerText = "Please type a letter to guess the mystery word.";
+  } else if (input.length >= 2) {
+    pMessage.innerText = "Please only submit one letter at a time.";
+  } else if (!input.match(acceptedLetter)) {
+    pMessage.innerText = "Please only submit a letter.";
+  } else {
+    return input;
+  }
+};
+
+const makeGuess = function (guess) {
+  guess = guess.toUppercase();
+  if (guessedLetters.includes(guess)) {
+    pMessage.innerText =
+      "You have already guessed this letter. Please guess another letter.";
+  } else {
+    guessedLetters.push(guess);
+    console.log(guessedLetters);
+  }
+};
