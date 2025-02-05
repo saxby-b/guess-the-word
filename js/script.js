@@ -1,5 +1,5 @@
 //Targets unordered list
-const ul = document.querySelector(".guessed-letters");
+const guessedLettersElement = document.querySelector(".guessed-letters");
 //Targets button
 const guessButton = document.querySelector(".guess");
 //Targets text input
@@ -38,7 +38,7 @@ guessButton.addEventListener("click", function (e) {
   // textInput.value = "";
   const playerInputValue = playerInput(inputValue);
   if (playerInputValue) {
-    makeGuess(guess);
+    makeGuess(inputValue);
   }
   textInput.value = "";
   //console.log(playerInputValue);
@@ -58,13 +58,24 @@ const playerInput = function (input) {
   }
 };
 
-const makeGuess = function (guess) {
-  guess = guess.toUppercase();
-  if (guessedLetters.includes(guess)) {
+const makeGuess = function (inputValue) {
+  inputValue = inputValue.toUpperCase();
+  if (guessedLetters.includes(inputValue)) {
     pMessage.innerText =
       "You have already guessed this letter. Please guess another letter.";
   } else {
-    guessedLetters.push(guess);
+    guessedLetters.push(inputValue); /*Changed from guess */
     console.log(guessedLetters);
+    updateLetters();
   }
 };
+
+const updateLetters = function () {
+  guessedLettersElement.innerHTML = "";
+  for (const letter of guessedLetters) {
+    const li = document.createElement("li");
+    li.innerText = letter;
+    guessedLettersElement.append(li);
+  }
+
+}
