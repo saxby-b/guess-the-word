@@ -92,4 +92,12 @@ const updateWordProgress = function (guessedLetters) {
     }   
   }
   p.innerText = updateLetter.join("");
+  winGame();
 };
+
+const winGame = function () {
+  if (word.toUpperCase() === p.innerText) {
+    pMessage.classList.add("win");
+    pMessage.innerHTML = `<p class="highlight"> You guessed the right word! Congrats! </p> `;
+  }
+  }
