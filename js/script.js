@@ -1,4 +1,4 @@
- //Targets unordered list
+//Targets unordered list
 const guessedLettersElement = document.querySelector(".guessed-letters");
 //Targets button
 const guessButton = document.querySelector(".guess");
@@ -20,6 +20,20 @@ let word = "magnolia";
 const guessedLetters = [];
 let remainingGuesses = 8;
 
+const getWord = async function () {
+  const res = await fetch(
+    "https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt"
+  );
+  const words= await res.text();
+  const wordArray = words.split("\n");
+  const randomIndex = Math.floor(Math.random() * wordArray.length);
+ word = wordArray[randomIndex].trim();
+  circle(word);
+  
+};
+
+getWord();
+
 const circle = function (word) {
   const placeholderLetters = [];
   for (const letter of word) {
@@ -28,8 +42,6 @@ const circle = function (word) {
   }
   p.innerText = placeholderLetters.join("");
 };
-
-circle(word);
 
 guessButton.addEventListener("click", function (e) {
   e.preventDefault();
@@ -67,7 +79,7 @@ const makeGuess = function (inputValue) {
   } else {
     guessedLetters.push(inputValue); /*Changed from guess */
     console.log(guessedLetters);
-   updateRemainingGuesses(inputValue);
+    updateRemainingGuesses(inputValue);
     updateLetters();
     updateWordProgress(guessedLetters);
   }
@@ -107,17 +119,17 @@ const updateRemainingGuesses = function (inputValue) {
   }
 
   if (remainingGuesses === 0) {
-    pMessage.innerHTML = `Game over! The word was <span class="highlight"> magnolia </span>.`;
+    pMessage.innerHTML = `Game over! The word was <span class="highlight"> ${word}</span>.`;
   } else if (remainingGuesses === 1) {
     remGuessSpan.innerText = `${remainingGuesses} guess`;
   } else {
     remGuessSpan.innerText = `${remainingGuesses} guesses`;
   }
-}; 
+};
 
 const winGame = function () {
   if (word.toUpperCase() === p.innerText) {
     pMessage.classList.add("win");
     pMessage.innerHTML = `<p class="highlight"> You guessed the right word! Congrats! </p> `;
   }
-}; 
+};
