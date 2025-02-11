@@ -1,4 +1,4 @@
-//Targets unordered list
+ //Targets unordered list
 const guessedLettersElement = document.querySelector(".guessed-letters");
 //Targets button
 const guessButton = document.querySelector(".guess");
@@ -9,15 +9,16 @@ const p = document.querySelector(".word-in-progress");
 //Targets Where remaining guesses will display
 const remGuess = document.querySelector(".remaining");
 //Targets span
-const span = document.querySelector(".remaining span");
+const remGuessSpan = document.querySelector(".remaining span");
 //Targets empty paragraph with message
 const pMessage = document.querySelector(".message");
 //Targets hidden button
 const hiddenButton = document.querySelector(".play-again");
 
-const word = "magnolia";
+let word = "magnolia";
 
 const guessedLetters = [];
+let remainingGuesses = 8;
 
 const circle = function (word) {
   const placeholderLetters = [];
@@ -66,6 +67,7 @@ const makeGuess = function (inputValue) {
   } else {
     guessedLetters.push(inputValue); /*Changed from guess */
     console.log(guessedLetters);
+   updateRemainingGuesses(inputValue);
     updateLetters();
     updateWordProgress(guessedLetters);
   }
@@ -89,15 +91,33 @@ const updateWordProgress = function (guessedLetters) {
       updateLetter.push(letter.toUpperCase());
     } else {
       updateLetter.push("●");
-    }   
+    }
   }
   p.innerText = updateLetter.join("");
   winGame();
 };
+
+const updateRemainingGuesses = function (inputValue) {
+  const upperWord = word.toUpperCase();
+  if (!upperWord.includes(inputValue)) {
+    pMessage.innerText = `Sorry, the mystery word does not include the letter ${inputValue}.`;
+    remainingGuesses -= 1;
+  } else {
+    pMessage.innerText = `Yay! The mystery word does include the letter ${inputValue}.`;
+  }
+
+  if (remainingGuesses === 0) {
+    pMessage.innerHTML = `Game over! The word was <span class="highlight"> magnolia </span>.`;
+  } else if (remainingGuesses === 1) {
+    remGuessSpan.innerText = `${remainingGuesses} guess`;
+  } else {
+    remGuessSpan.innerText = `${remainingGuesses} guesses`;
+  }
+}; 
 
 const winGame = function () {
   if (word.toUpperCase() === p.innerText) {
     pMessage.classList.add("win");
     pMessage.innerHTML = `<p class="highlight"> You guessed the right word! Congrats! </p> `;
   }
-  }
+}; 
