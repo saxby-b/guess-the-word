@@ -17,19 +17,18 @@ const hiddenButton = document.querySelector(".play-again");
 
 let word = "magnolia";
 
-const guessedLetters = [];
+let guessedLetters = [];
 let remainingGuesses = 8;
 
 const getWord = async function () {
   const res = await fetch(
     "https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt"
   );
-  const words= await res.text();
+  const words = await res.text();
   const wordArray = words.split("\n");
   const randomIndex = Math.floor(Math.random() * wordArray.length);
- word = wordArray[randomIndex].trim();
+  word = wordArray[randomIndex].trim();
   circle(word);
-  
 };
 
 getWord();
@@ -77,7 +76,7 @@ const makeGuess = function (inputValue) {
     pMessage.innerText =
       "You have already guessed this letter. Please guess another letter.";
   } else {
-    guessedLetters.push(inputValue); /*Changed from guess */
+    guessedLetters.push(inputValue); //Changed from guess
     console.log(guessedLetters);
     updateRemainingGuesses(inputValue);
     updateLetters();
@@ -120,6 +119,7 @@ const updateRemainingGuesses = function (inputValue) {
 
   if (remainingGuesses === 0) {
     pMessage.innerHTML = `Game over! The word was <span class="highlight"> ${word}</span>.`;
+    startOver();
   } else if (remainingGuesses === 1) {
     remGuessSpan.innerText = `${remainingGuesses} guess`;
   } else {
@@ -131,5 +131,28 @@ const winGame = function () {
   if (word.toUpperCase() === p.innerText) {
     pMessage.classList.add("win");
     pMessage.innerHTML = `<p class="highlight"> You guessed the right word! Congrats! </p> `;
+    startOver();
   }
 };
+
+const startOver = function () {
+  guessButton.classList.add("hide");
+  remGuess.classList.add("hide");
+  guessedLettersElement.classList.add("hide");
+  hiddenButton.classList.remove("hide");
+};
+
+hiddenButton.addEventListener("click", function () {
+  pMessage.classList.remove("win");
+  guessedLetters = [];
+  remainingGuesses = 8;
+  remGuessSpan.innerText = `${remainingGuesses} guesses`;
+  guessedLettersElement.innerHTML = "";
+  pMessage.innerText = "";
+  getWord();
+
+  guessButton.classList.remove("hide");
+  hiddenButton.classList.add("hide");
+  remGuess.classList.remove("hide");
+  guessedLettersElement.classList.remove("hide");
+});
