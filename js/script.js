@@ -64,7 +64,7 @@ const playerInput = function (input) {
   } else if (input.length >= 2) {
     pMessage.innerText = "Please only submit one letter at a time.";
   } else if (!input.match(acceptedLetter)) {
-    pMessage.innerText = "Please only submit a letter.";
+    pMessage.innerText = "Please only submit a letter from A-Z.";
   } else {
     return input;
   }
