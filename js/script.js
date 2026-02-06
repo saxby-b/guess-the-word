@@ -36,7 +36,6 @@ getWord();
 const circle = function (word) {
   const placeholderLetters = [];
   for (const letter of word) {
-   // console.log(letter);
     placeholderLetters.push("●");
   }
   p.innerText = placeholderLetters.join("");
@@ -72,8 +71,7 @@ const makeGuess = function (inputValue) {
     pMessage.innerText =
       "You have already guessed this letter. Please guess another letter.";
   } else {
-    guessedLetters.push(inputValue); 
-    //console.log(guessedLetters);
+    guessedLetters.push(inputValue);
     updateRemainingGuesses(inputValue);
     updateLetters();
     updateWordProgress(guessedLetters);
