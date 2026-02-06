@@ -36,7 +36,7 @@ getWord();
 const circle = function (word) {
   const placeholderLetters = [];
   for (const letter of word) {
-    console.log(letter);
+   // console.log(letter);
     placeholderLetters.push("●");
   }
   p.innerText = placeholderLetters.join("");
