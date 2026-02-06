@@ -46,15 +46,11 @@ guessButton.addEventListener("click", function (e) {
   e.preventDefault();
   pMessage.innerText = "";
   const inputValue = textInput.value;
-  // console.log(inputValue);
-  // textInput.value = "";
   const playerInputValue = playerInput(inputValue);
   if (playerInputValue) {
     makeGuess(inputValue);
   }
   textInput.value = "";
-  //console.log(playerInputValue);
-  // makeGuess(guess);
 });
 
 const playerInput = function (input) {
@@ -76,8 +72,8 @@ const makeGuess = function (inputValue) {
     pMessage.innerText =
       "You have already guessed this letter. Please guess another letter.";
   } else {
-    guessedLetters.push(inputValue); //Changed from guess
-    console.log(guessedLetters);
+    guessedLetters.push(inputValue); 
+    //console.log(guessedLetters);
     updateRemainingGuesses(inputValue);
     updateLetters();
     updateWordProgress(guessedLetters);
